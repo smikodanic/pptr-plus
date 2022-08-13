@@ -1,0 +1,23 @@
+{
+  "name": "pptr-plus",
+  "version": "1.0.0",
+  "title": "Puppeteer Plus",
+  "description": "Some extra functions which are missing in the Puppeteer (pptr.dev) library.",
+  "keywords": [
+    "puppeteer",
+    "pptr",
+    "pptr.dev",
+    "library",
+    "pptr plus"
+  ],
+  "author": "Saša Mikodanić",
+  "license": "AGPL-3.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:smikodanic/pptr-plus.git"
+  },
+  "dependencies": {
+    "fs-extra": "^9.0.1"
+  }
+}
