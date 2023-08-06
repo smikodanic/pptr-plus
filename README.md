@@ -22,7 +22,13 @@ await pp.checkTextOnPage('Bitcoin goes up')
 ## API
 
 #### constructor(page)
-The *page* is puppeteer Page object.
+The *page* argument is the [puppeteer Page](https://pptr.dev/api/puppeteer.page) instance (object).
+
+```js
+  const browser = await puppeteer.launch(sysconfig.puppeteer).catch(err => echo.error(err));
+  // const page = await browser.newPage(); // open page in the second tab
+  const page = (await browser.pages())[0]; // open page in the first tab
+```
 
 #### async autoscroll(cssSel, delay = 3400)
 Autoscroll the web page where content is loaded dynamically as the user scroll down. For example the facebook posts.
@@ -97,6 +103,18 @@ Save cookie data from browser to file.
 #### async cookieTake(cookie_file_path)
 Get cookie data from the file and set browser's cookie.
 - *@param {string} cookie_file_path* - dir/fileName.json
+
+
+#### async storageSave(storage_file_path, storage_type)
+Save local or session storage data from browser to file.
+- *@param {string} storage_file_path* - dir/fileName.json
+- *@param {string} storage_type* - 'localStorage' | 'sessionStorage'
+
+
+#### async storageTake(storage_file_path, storage_type)
+Get storage data from the file and set browser's loal or session storage.
+- *@param {string} storage_file_path* - dir/fileName.json
+- *@param {string} storage_type* - 'localStorage' | 'sessionStorage'
 
 
 

@@ -283,7 +283,7 @@ class PptrPlus {
    * @returns {void}
    */
   async cookieSave(cookie_file_path) {
-    const cookies_arr = await this.page.cookies();
+    const cookies_arr = await this.page.cookies() || [];
     await fse.ensureFile(cookie_file_path);
     await fse.writeJson(cookie_file_path, cookies_arr, { spaces: 2 });
   }
@@ -295,11 +295,45 @@ class PptrPlus {
    * @returns {void}
    */
   async cookieTake(cookie_file_path) {
-    const cookies_arr = await fse.readJson(cookie_file_path);
+    const cookies_arr = await fse.readJson(cookie_file_path) || [];
     if (cookies_arr.length !== 0) {
       for (const cookie of cookies_arr) {
         await this.page.setCookie(cookie);
       }
+    }
+  }
+
+
+  /*********** LOCAL & SESSION STORAGE************/
+  /**
+   * Save local or session storage data from browser to file.
+   * @param {string} storage_file_path - dir/fileName.json
+   * @param {string} storage_type - 'localStorage' | 'sessionStorage'
+   * @returns {void}
+   */
+  async storageSave(storage_file_path, storage_type = 'localStorage') {
+    await fse.ensureFile(storage_file_path);
+    const storageObj = await this.page.evaluate(() => Object.assign({}, window[storage_type]));
+    if (!!storageObj) {
+      await fse.writeJson(storage_file_path, storageObj, { spaces: 2 });
+    }
+  }
+
+
+  /**
+   * Get storage data from file and set browser's local or session storage.
+   * @param {string} storage_file_path - dir/fileName.json
+   * @param {string} storage_type - 'localStorage' | 'sessionStorage'
+   * @returns {void}
+   */
+  async cookieTake(storage_file_path, storage_type = 'localStorage') {
+    const storageObj = await fse.readJson(storage_file_path) || {};
+    if (Object.keys(storageObj).length) {
+      await this.page.evaluate((storageObj) => {
+        for (const [keyName, keyValue] of Object.entries(storageObj)) {
+          window[storage_type].setItem(keyName, keyValue);
+        }
+      }, storageObj);
     }
   }
 
