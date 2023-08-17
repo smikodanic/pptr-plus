@@ -252,6 +252,29 @@ class PptrPlus {
   }
 
 
+  /**
+   * Set the value of the input field
+   * @param {string} sel - css selector
+   * @param {string} val - input value
+   * @returns {void}
+   */
+  async inputSetValue(sel, val) {
+    await new Promise(r => setTimeout(r, 400));
+    await this.page.$$eval(sel, (elems, val2) => {
+      const elem = elems[0];
+      if (elem.type === 'radio') {
+        elems.forEach(el => {
+          if (el.value === val2) { el.checked = true; }
+        });
+      } else if (elem.type === 'checkbox') {
+        if (elem.value === val2) { elem.checked = true; }
+      } else {
+        elem.value = val2;
+      }
+    }, val);
+  }
+
+
 
   /**
    * Create the screenshot image and save it into the folder. The file will be saved as .jpg.
@@ -272,6 +295,22 @@ class PptrPlus {
       fullPage: true
     });
     // console.log(`Screenshot "${file}" created.`);
+  }
+
+
+
+
+  /**
+   * Get HTML string from the puppeteer's ElementHandle.
+   * Example:
+   * const modal_EH = await page.waitForSelector('div#ModalUsersLists___BV_modal_body_', { timeout: 8000 });
+   * const modal_HTML = await pptrPlus.elementHandle2HTML();
+   * @param {ElementHandle} eh
+   * @return {string}
+   */
+  async elementHandle2HTML(eh) {
+    const outerHTML = await (await eh.getProperty('outerHTML')).jsonValue();
+    return outerHTML;
   }
 
 
@@ -326,7 +365,7 @@ class PptrPlus {
    * @param {string} storage_type - 'localStorage' | 'sessionStorage'
    * @returns {void}
    */
-  async cookieTake(storage_file_path, storage_type = 'localStorage') {
+  async storageTake(storage_file_path, storage_type = 'localStorage') {
     const storageObj = await fse.readJson(storage_file_path) || {};
     if (Object.keys(storageObj).length) {
       await this.page.evaluate((storageObj) => {
