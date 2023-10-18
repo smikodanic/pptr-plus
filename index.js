@@ -334,12 +334,16 @@ class PptrPlus {
    * @returns {void}
    */
   async cookieTake(cookie_file_path) {
+    if (!fse.existsSync(cookie_file_path)) { return false; }
+
     const cookies_arr = await fse.readJson(cookie_file_path) || [];
     if (cookies_arr.length !== 0) {
       for (const cookie of cookies_arr) {
         await this.page.setCookie(cookie);
       }
     }
+
+    return true;
   }
 
 
