@@ -1,6 +1,6 @@
 {
   "name": "pptr-plus",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "title": "Puppeteer Plus",
   "description": "Some extra functions which are missing in the Puppeteer (pptr.dev) library.",
   "keywords": [
