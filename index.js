@@ -52,21 +52,39 @@ class PptrPlus {
   }
 
 
+  async scrollToElement(page, selector) {
+    await page.evaluate(async (selector) => {
+      const element = document.querySelector(selector);
+      if (element) { element.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' }); }
+      else { throw new Error(`Element with selector "${selector}" not found.`); }
+    }, selector);
+  }
+
+
+  async scrollToBottom(page) {
+    await page.evaluate(async () => {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth'
+      });
+    });
+  }
+
+
   /**
      * Scroll the web page to bottom.
      * The page will scroll for innerHeight for every delay miliseconds until it reach the end.
      * @param {number} delay - the time interval between every consecutive scroll
      * @returns {void}
      */
-  async scrollToBottom(delay = 100) {
+  async scrollToBottomEasy(delay = 100) {
     return await this.page.evaluate((delay) => {
       return new Promise((resolve, reject) => {
         let scrollTop = -1;
         let scrollCounter = 0;
-        console.log(delay);
 
         const ID = setInterval(async () => {
-          console.log('scrollCounter::', scrollCounter, document.documentElement.scrollTop, scrollTop);
+          // console.log('scrollCounter::', scrollCounter, document.documentElement.scrollTop, scrollTop);
           window.scrollBy(0, window.innerHeight);
 
           if (document.documentElement.scrollTop !== scrollTop) {
@@ -83,6 +101,7 @@ class PptrPlus {
       });
     }, delay);
   }
+
 
 
   /**
