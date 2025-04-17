@@ -52,6 +52,12 @@ class PptrPlus {
   }
 
 
+  /**
+   * Scrolls the specified Puppeteer `Page` to a particular element defined by the CSS `selector`, making it visible.
+   * @param {Page} page - The Puppeteer `Page` object.
+   * @param {string} selector - The CSS selector of the element to scroll to.
+   * @returns {Promise<void>}
+   */
   async scrollToElement(page, selector) {
     await page.evaluate(async (selector) => {
       const element = document.querySelector(selector);
@@ -61,6 +67,11 @@ class PptrPlus {
   }
 
 
+  /**
+   * Scrolls the specified Puppeteer `Page` to the very bottom of the document.
+   * @param {Page} page - The Puppeteer `Page` object.
+   * @returns {Promise<void>}
+   */
   async scrollToBottom(page) {
     await page.evaluate(async () => {
       window.scrollTo({
