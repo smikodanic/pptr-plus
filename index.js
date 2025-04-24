@@ -60,7 +60,7 @@ class PptrPlus {
    * @returns {Promise<void>}
    */
   async scrollToElement(page, selector, position = 'end') {
-    await page.evaluate(async (selector) => {
+    await page.evaluate((selector, position) => {
       const element = document.querySelector(selector);
       if (element) { element.scrollIntoView({ behavior: 'smooth', block: position, inline: 'nearest' }); }
       else { throw new Error(`Element with selector "${selector}" not found.`); }
@@ -74,7 +74,7 @@ class PptrPlus {
    * @returns {Promise<void>}
    */
   async scrollToBottom(page) {
-    await page.evaluate(async () => {
+    await page.evaluate(() => {
       window.scrollTo({
         top: document.documentElement.scrollHeight,
         behavior: 'smooth'
