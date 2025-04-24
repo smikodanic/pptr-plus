@@ -67,12 +67,13 @@ await pp.autoscroll('#post-container > div.post:last-child');
 await pp.autoscroll('.comment', 2000);
 ```
 
-### `async scrollToElement(page, selector)`
+### `async scrollToElement(page, selector, position)`
 
 Scrolls the specified Puppeteer `Page` to a particular element defined by the CSS `selector`, making it visible.
 
   - `page` (`Page`): The Puppeteer `Page` object.
   - `selector` (`string`): The CSS selector of the element to scroll to.
+  - `position` (`'start'|'end'`): Where the scrolled element should appear after scrolling: 'start' means at the top, 'end' means at the bottom
 
 **Returns:** `Promise<void>`
 

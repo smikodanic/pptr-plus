@@ -56,12 +56,13 @@ class PptrPlus {
    * Scrolls the specified Puppeteer `Page` to a particular element defined by the CSS `selector`, making it visible.
    * @param {Page} page - The Puppeteer `Page` object.
    * @param {string} selector - The CSS selector of the element to scroll to.
+   * @param {'start'|'end'} position - where scrolled element should be: 'start' means on the top, 'end' means on the bottom
    * @returns {Promise<void>}
    */
-  async scrollToElement(page, selector) {
+  async scrollToElement(page, selector, position = 'end') {
     await page.evaluate(async (selector) => {
       const element = document.querySelector(selector);
-      if (element) { element.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' }); }
+      if (element) { element.scrollIntoView({ behavior: 'smooth', block: position, inline: 'nearest' }); }
       else { throw new Error(`Element with selector "${selector}" not found.`); }
     }, selector);
   }
