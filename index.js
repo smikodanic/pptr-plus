@@ -64,7 +64,7 @@ class PptrPlus {
       const element = document.querySelector(selector);
       if (element) { element.scrollIntoView({ behavior: 'smooth', block: position, inline: 'nearest' }); }
       else { throw new Error(`Element with selector "${selector}" not found.`); }
-    }, selector);
+    }, selector, position);
   }
 
 
